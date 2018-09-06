@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -8,18 +9,20 @@ import {Router} from '@angular/router';
 })
 export class HomeComponent {
 
-  orderId: number;
-
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private authService: AuthService) {
   }
 
-  navigateToOrder() {
-    this.router.navigate(['order-data', this.orderId]);
+  public successfulAuthorized() {
+    this.authService.dispatchSuccessfulLogin();
+    this.router.navigate(['about']);
   }
 
-  navigateToAbout() {
-    this.router.navigate(['about'], {queryParams: {'customQuery': 6456, 'secondQueryParam': 200}});
+  public successfulUnauthorized() {
+    this.authService.dispatchUnsuccessfulLogin();
+    alert('Login incorrect!');
   }
+
 }
 
 
